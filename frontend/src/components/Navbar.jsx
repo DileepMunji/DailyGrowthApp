@@ -3,11 +3,25 @@ import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const token = localStorage.getItem('token');
+  const userStr = localStorage.getItem('user');
+  const user = userStr ? JSON.parse(userStr) : null;
+
+  const getInitials = (name) => {
+    if (!name) return '?';
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setIsProfileOpen(false);
     window.location.href = '/';
   };
 
@@ -31,19 +45,45 @@ export default function Navbar() {
             <Link to="/contact" className="text-gray-700 hover:text-indigo-600 transition">Contact</Link>
           </div>
 
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            {token ? (
+          {/* Auth Buttons & Profile */}
+          <div className="hidden md:flex items-center space-x-4 relative">
+            {token && user ? (
               <>
                 <Link to="/bookmarks" className="text-gray-700 hover:text-indigo-600 transition">
                   💎 Bookmarks
                 </Link>
-                <button
-                  onClick={handleLogout}
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
-                >
-                  Logout
-                </button>
+                
+                {/* Profile Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                    className="flex items-center space-x-2 hover:bg-gray-100 px-3 py-2 rounded-lg transition"
+                  >
+                    <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-teal-400 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      {getInitials(user.name)}
+                    </div>
+                    <span className="text-gray-700 font-medium text-sm hidden sm:inline">{user.name}</span>
+                    <svg className={`w-4 h-4 text-gray-700 transition ${isProfileOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  </button>
+                  
+                  {/* Profile Menu */}
+                  {isProfileOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
+                      <div className="px-4 py-2 border-b border-gray-200">
+                        <p className="text-sm font-semibold text-gray-800">{user.name}</p>
+                        <p className="text-xs text-gray-500">{user.email}</p>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition text-sm"
+                      >
+                        🚪 Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <>
@@ -82,17 +122,30 @@ export default function Navbar() {
             <Link to="/about" className="block px-2 py-2 text-gray-700 hover:bg-gray-100 rounded">About</Link>
             <Link to="/contact" className="block px-2 py-2 text-gray-700 hover:bg-gray-100 rounded">Contact</Link>
             
-            {token ? (
+            {token && user ? (
               <>
                 <Link to="/bookmarks" className="block px-2 py-2 text-gray-700 hover:bg-gray-100 rounded">
                   💎 Bookmarks
                 </Link>
-                <button
-                  onClick={handleLogout}
-                  className="w-full mt-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
-                >
-                  Logout
-                </button>
+                
+                {/* Mobile Profile */}
+                <div className="border-t border-gray-200 mt-3 pt-3">
+                  <div className="flex items-center space-x-3 px-2 py-2 bg-gray-50 rounded mb-3">
+                    <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-teal-400 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      {getInitials(user.name)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-800">{user.name}</p>
+                      <p className="text-xs text-gray-500">{user.email}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition text-sm"
+                  >
+                    🚪 Logout
+                  </button>
+                </div>
               </>
             ) : (
               <>
