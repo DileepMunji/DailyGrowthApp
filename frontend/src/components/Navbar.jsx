@@ -77,7 +77,7 @@ export default function Navbar() {
                       </div>
                       <button
                         onClick={handleLogout}
-                        className="w-full px-4 py-3 mt-2 mb-1 flex items-center space-x-2 text-orange-600 hover:bg-orange-50 hover:text-orange-700 transition duration-200 text-sm font-medium"
+                        className="w-full px-4 py-3 mt-2 mb-1 flex items-center space-x-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-200 text-sm font-medium"
                       >
                         <span className="text-lg">🚪</span>
                         <span>Logout</span>
@@ -130,7 +130,7 @@ export default function Navbar() {
                 </Link>
                 
                 {/* Mobile Profile */}
-                <div className="border-t border-gray-200 mt-4 pt-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-3 mx-2">
+                <div className="border-t border-gray-200 mt-4 pt-4 bg-gradient-to-r from-gray-50 to-slate-50 rounded-lg p-3 mx-2">
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-teal-400 rounded-full flex items-center justify-center text-white font-semibold">
                       {getInitials(user.name)}
@@ -142,7 +142,7 @@ export default function Navbar() {
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="w-full bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg transition duration-200 text-sm font-semibold flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+                    className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-lg transition duration-200 text-sm font-semibold flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
                   >
                     <span className="text-lg">🚪</span>
                     <span>Logout</span>
