@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { blogAPI } from '../services/api';
+import LikeBookmark from './LikeBookmark';
 
 export default function StoryViewer() {
   const { id } = useParams();
@@ -193,6 +194,15 @@ export default function StoryViewer() {
           className="h-full bg-gradient-to-r from-indigo-600 to-teal-400 transition-all duration-300"
           style={{ width: `${progress}%` }}
         ></div>
+      </div>
+
+      {/* Like & Bookmark Bar */}
+      <div className="bg-gradient-to-r from-black/80 to-gray-900/80 backdrop-blur-md px-3 sm:px-4 md:px-6 py-4 sm:py-5 flex items-center justify-center z-40 border-b border-gray-700">
+        <LikeBookmark 
+          blogId={blog._id} 
+          initialLikes={blog.likes} 
+          initialLikedBy={blog.likedBy}
+        />
       </div>
 
       {/* Main Story Area */}

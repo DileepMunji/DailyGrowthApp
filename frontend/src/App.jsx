@@ -5,6 +5,7 @@ import StoryViewer from './components/StoryViewer';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Bookmarks from './pages/Bookmarks';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
             <Route path="/contact" element={<div className="max-w-7xl mx-auto px-4 py-8">Contact - Coming Soon</div>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/bookmarks" element={<div className="max-w-7xl mx-auto px-4 py-8">Bookmarks - Coming Soon</div>} />
+            <Route path="/bookmarks" element={<Bookmarks />} />
           </Routes>
         </main>
         <Footer />
