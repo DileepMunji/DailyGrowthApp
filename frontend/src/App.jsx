@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Bookmarks from './pages/Bookmarks';
+import About from './pages/About';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -17,8 +19,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/story/:id" element={<StoryViewer />} />
             <Route path="/categories" element={<div className="max-w-7xl mx-auto px-4 py-8">Categories - Coming Soon</div>} />
-            <Route path="/about" element={<div className="max-w-7xl mx-auto px-4 py-8">About - Coming Soon</div>} />
-            <Route path="/contact" element={<div className="max-w-7xl mx-auto px-4 py-8">Contact - Coming Soon</div>} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/bookmarks" element={<Bookmarks />} />
