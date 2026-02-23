@@ -47,6 +47,9 @@ export default function Login() {
       setSuccess('✅ Login successful! Redirecting to home...');
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
+      
+      // Dispatch event to update navbar immediately
+      window.dispatchEvent(new Event('authChange'));
 
       setTimeout(() => {
         navigate('/');

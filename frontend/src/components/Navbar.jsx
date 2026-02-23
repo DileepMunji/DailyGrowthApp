@@ -1,12 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const token = localStorage.getItem('token');
-  const userStr = localStorage.getItem('user');
-  const user = userStr ? JSON.parse(userStr) : null;
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [user, setUser] = useState(() => {
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
+  });
+
+  // Listen for storage changes to update navbar immediately
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const newToken = localStorage.getItem('token');
+      const userStr = localStorage.getItem('user');
+      const newUser = userStr ? JSON.parse(userStr) : null;
+      
+      setToken(newToken);
+      setUser(newUser);
+    };
+
+    // Listen for both storage events and custom authChange events
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('authChange', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('authChange', handleStorageChange);
+    };
+  }, []);
 
   const getInitials = (name) => {
     if (!name) return '?';
@@ -21,8 +44,16 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    setToken(null);
+    setUser(null);
     setIsProfileOpen(false);
-    window.location.href = '/';
+    
+    // Dispatch event to update navbar immediately
+    window.dispatchEvent(new Event('authChange'));
+    
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 300);
   };
 
   return (
