@@ -6,18 +6,23 @@ export default function StoryViewer() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [blog, setBlog] = useState(null);
+  const [allBlogs, setAllBlogs] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [autoPlay, setAutoPlay] = useState(true);
 
-  // Fetch blog
+  // Fetch blog and all blogs for "Up Next"
   useEffect(() => {
-    const fetchBlog = async () => {
+    const fetchBlogs = async () => {
       try {
         setLoading(true);
-        const response = await blogAPI.getBlogById(id);
-        setBlog(response.data);
+        const currentResponse = await blogAPI.getBlogById(id);
+        setBlog(currentResponse.data);
+        
+        const allBlogsResponse = await blogAPI.getAllBlogs();
+        setAllBlogs(allBlogsResponse.data);
+        
         setCurrentSlide(0);
         setError('');
       } catch (err) {
@@ -28,7 +33,7 @@ export default function StoryViewer() {
       }
     };
 
-    fetchBlog();
+    fetchBlogs();
   }, [id]);
 
   // Auto-play slides
@@ -74,6 +79,10 @@ export default function StoryViewer() {
     );
   }
 
+  // Find next blog
+  const currentBlogIndex = allBlogs.findIndex(b => b._id === id);
+  const nextBlog = currentBlogIndex < allBlogs.length - 1 ? allBlogs[currentBlogIndex + 1] : null;
+
   const slide = blog.blogSlides[currentSlide];
   const isLastSlide = currentSlide === blog.blogSlides.length - 1;
   const progress = ((currentSlide + 1) / blog.blogSlides.length) * 100;
@@ -99,6 +108,12 @@ export default function StoryViewer() {
       handleNext();
     } else {
       handlePrev();
+    }
+  };
+
+  const handleUpNext = () => {
+    if (nextBlog) {
+      navigate(`/story/${nextBlog._id}`);
     }
   };
 
@@ -181,12 +196,33 @@ export default function StoryViewer() {
               <p className="text-3xl mb-4">✨</p>
               <h3 className="text-2xl font-bold mb-4">Story Complete!</h3>
               <p className="text-gray-300 mb-6">Amazing job reading this story. Keep improving 1% every day!</p>
-              <button
-                onClick={() => navigate('/')}
-                className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition"
-              >
-                Back to Home
-              </button>
+              
+              {nextBlog && (
+                <>
+                  <p className="text-sm text-gray-400 mb-4">Up Next: {nextBlog.category}</p>
+                  <button
+                    onClick={handleUpNext}
+                    className="w-full bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition mb-3"
+                  >
+                    Up Next → {nextBlog.title.substring(0, 30)}...
+                  </button>
+                  <button
+                    onClick={() => navigate('/')}
+                    className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition"
+                  >
+                    Back to Home
+                  </button>
+                </>
+              )}
+              
+              {!nextBlog && (
+                <button
+                  onClick={() => navigate('/')}
+                  className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition"
+                >
+                  Back to Home
+                </button>
+              )}
             </div>
           </div>
         )}

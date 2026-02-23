@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import { blogAPI } from '../services/api';
 
@@ -6,12 +7,21 @@ export default function Home() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
+
+  const categories = [
+    { name: '', label: 'All', emoji: '📚' },
+    { name: 'Healthy', label: 'Healthy', emoji: '🌱' },
+    { name: 'Education', label: 'Education', emoji: '📖' },
+    { name: 'Jobs', label: 'Jobs', emoji: '💼' },
+  ];
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
-        const response = await blogAPI.getAllBlogs();
+        const response = await blogAPI.getAllBlogs(selectedCategory);
         setBlogs(response.data);
         setError('');
       } catch (err) {
@@ -23,7 +33,16 @@ export default function Home() {
     };
 
     fetchBlogs();
-  }, []);
+  }, [selectedCategory]);
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    if (category) {
+      setSearchParams({ category });
+    } else {
+      setSearchParams({});
+    }
+  };
 
   return (
     <div className="bg-white">
@@ -54,8 +73,30 @@ export default function Home() {
       <section className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mb-10">
-            <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-2">Featured Stories</h2>
-            <p className="text-gray-600">Read inspiring stories in story-style format</p>
+            <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-6">Featured Stories</h2>
+            
+            {/* Category Filter Buttons */}
+            <div className="flex flex-wrap gap-3 mb-8">
+              {categories.map((cat) => (
+                <button
+                  key={cat.name || 'all'}
+                  onClick={() => handleCategoryChange(cat.name)}
+                  className={`px-4 md:px-6 py-2 rounded-full font-semibold transition-all duration-300 ${
+                    selectedCategory === cat.name
+                      ? 'bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-lg scale-105'
+                      : 'bg-white text-gray-800 border-2 border-gray-300 hover:border-indigo-600 hover:text-indigo-600'
+                  }`}
+                >
+                  {cat.emoji} {cat.label}
+                </button>
+              ))}
+            </div>
+
+            <p className="text-gray-600">
+              {selectedCategory
+                ? `Showing ${selectedCategory} stories`
+                : 'Read inspiring stories in story-style format'}
+            </p>
           </div>
 
           {/* Loading State */}
@@ -86,7 +127,7 @@ export default function Home() {
           {/* Empty State */}
           {!loading && blogs.length === 0 && !error && (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">No blogs available yet. Check back soon!</p>
+              <p className="text-gray-600 text-lg">No blogs available for this category yet.</p>
             </div>
           )}
         </div>
