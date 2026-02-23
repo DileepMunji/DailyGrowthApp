@@ -11,9 +11,21 @@ export default function StoryViewer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [autoPlay, setAutoPlay] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
+  // Check authentication on mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsAuthenticated(false);
+      navigate('/login', { replace: true });
+    }
+  }, [navigate]);
 
   // Fetch blog and all blogs for "Up Next"
   useEffect(() => {
+    if (!isAuthenticated) return;
+
     const fetchBlogs = async () => {
       try {
         setLoading(true);
@@ -34,7 +46,7 @@ export default function StoryViewer() {
     };
 
     fetchBlogs();
-  }, [id]);
+  }, [id, isAuthenticated]);
 
   // Auto-play slides
   useEffect(() => {
@@ -117,6 +129,47 @@ export default function StoryViewer() {
     }
   };
 
+  // Guard: Show loading while checking auth
+  if (!isAuthenticated) {
+    return (
+      <div className="w-full h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-lg font-semibold mb-4">Redirecting to login...</p>
+          <div className="w-12 h-12 border-4 border-indigo-600 border-t-teal-400 rounded-full animate-spin mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Guard: Show loading while fetching blog
+  if (loading) {
+    return (
+      <div className="w-full h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-lg font-semibold mb-4">Loading story...</p>
+          <div className="w-12 h-12 border-4 border-indigo-600 border-t-teal-400 rounded-full animate-spin mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Guard: Show error if any
+  if (error || !blog) {
+    return (
+      <div className="w-full h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-lg font-semibold text-red-400 mb-4">{error || 'Blog not found'}</p>
+          <button
+            onClick={() => navigate('/')}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition"
+          >
+            Back to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-screen bg-black text-white overflow-hidden flex flex-col">
       {/* Close Button & Info Bar */}
@@ -172,19 +225,10 @@ export default function StoryViewer() {
         </div>
 
         {/* Left Tap Area Indicator */}
-        <div className="absolute left-0 top-0 w-1/4 h-full hover:bg-white hover:bg-opacity-5 transition group">
+        <div className="absolute left-0 top-0 w-1/4 h-full hover:bg-white hover:bg-opacity-5 transition">
           {currentSlide > 0 && (
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white opacity-0 group-hover:opacity-100 transition">
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white opacity-0 hover:opacity-100 transition">
               ← Prev
-            </div>
-          )}
-        </div>
-
-        {/* Right Tap Area Indicator */}
-        <div className="absolute right-0 top-0 w-1/4 h-full hover:bg-white hover:bg-opacity-5 transition group">
-          {!isLastSlide && (
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white opacity-0 group-hover:opacity-100 transition">
-              Next →
             </div>
           )}
         </div>
