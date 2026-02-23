@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import StoryViewer from './components/StoryViewer';
+import Home from './pages/Home';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
@@ -11,7 +13,8 @@ function App() {
         <Navbar />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<div className="max-w-7xl mx-auto px-4 py-8">Home Page - Coming Soon</div>} />
+            <Route path="/" element={<Home />} />
+            <Route path="/story/:id" element={<StoryViewer />} />
             <Route path="/categories" element={<div className="max-w-7xl mx-auto px-4 py-8">Categories - Coming Soon</div>} />
             <Route path="/about" element={<div className="max-w-7xl mx-auto px-4 py-8">About - Coming Soon</div>} />
             <Route path="/contact" element={<div className="max-w-7xl mx-auto px-4 py-8">Contact - Coming Soon</div>} />

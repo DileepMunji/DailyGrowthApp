@@ -100,107 +100,170 @@ DailyGrowthApp/
 
 ---
 
-## ✅ FEATURE 2: REGISTRATION & LOGIN - COMPLETED
+## ✅ FEATURE 3: BLOG LISTING & STORY VIEWER - COMPLETED
 
 ### Backend ✅
-- User model with password hashing (bcrypt)
-- POST /api/auth/register - Create new user
-- POST /api/auth/login - Authenticate user
-- JWT token generation on success
+- GET /api/blogs - Returns all blogs with pagination ready
+- GET /api/blogs/:id - Returns single blog with all slides
+- Sample blogs seeded with 8 slides each
 
 ### Frontend ✅
-- Register page with form validation
-- Login page with form validation
-- Error handling and success messages
-- Responsive design (mobile, tablet, desktop)
-- Token storage in localStorage
-- Auto-redirect on successful auth
+- Home page (`/`) with hero section and featured blogs grid
+- BlogCard component with:
+  - Responsive image
+  - Category badge with emoji
+  - Title, description, author info
+  - Slide count display
+  - Hover effects
+- StoryViewer component (`/story/:id`) with:
+  - Full-screen immersive experience
+  - Instagram-style slide navigation
+  - Left side click = previous slide
+  - Right side click = next slide
+  - Progress bar at top
+  - Slide counter
+  - Auto-play slides (5 second interval)
+  - Pause/play button
+  - Mobile-optimized controls
+  - "Story Complete" message on last slide
+  
+### Pages & Components Created
+- `pages/Home.jsx` - Home page with blog grid
+- `components/BlogCard.jsx` - Individual blog card display
+- `components/StoryViewer.jsx` - Full-screen story viewer
 
-### Pages Created
-- `pages/Register.jsx` - Responsive registration form
-- `pages/Login.jsx` - Responsive login form
+## 🧪 Testing FEATURE 3
 
-## 🧪 Testing FEATURE 2
-
-### Backend API Testing (Using Postman or curl)
-
-**1. Test Register Endpoint:**
+### Step 1: Seed Sample Blogs (if not already done)
 ```bash
-POST http://localhost:5001/api/auth/register
-Content-Type: application/json
+cd backend
+npm run seed
+```
 
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123"
-}
+This creates 3 sample blogs with 8 slides each:
+- "7 Healthy Eating Habits" (Healthy category)
+- "The Power of Reading" (Education category)
+- "5 Skills Every Developer Should Master" (Jobs category)
+
+### Step 2: Frontend Testing
+
+**Test 1: Home Page Loading**
+1. Open `http://localhost:3000`
+2. Verify hero section displays correctly
+3. Verify blog cards load and display images
+4. Verify category badges show correctly
+
+**Test 2: Responsive Grid Layout**
+
+*Desktop (1440px):*
+- Should show 3 blog cards per row
+- Cards equal height and width
+- Proper spacing between cards
+
+*Tablet (768px):*
+- Should show 2 blog cards per row
+- Cards maintain aspect ratio
+
+*Mobile (375px):*
+- Should show 1 blog card per row
+- Cards are full width with padding
+- No horizontal scrolling
+
+**Test 3: BlogCard Interaction**
+1. Hover over a blog card on desktop
+   - Image should scale up slightly
+   - Box shadow should increase
+   - Text color should change
+2. Click "Read Story" button
+   - Should navigate to StoryViewer
+
+**Test 4: StoryViewer Navigation**
+
+*Slide Navigation:*
+1. Open a blog story
+2. Click on right side of screen → Next slide
+3. Click on left side of screen → Previous slide
+4. Verify slide counter updates
+5. Verify progress bar fills
+
+*Progress Bar:*
+- Progress bar should fill smoothly
+- Should show 1/8, 2/8, etc.
+
+*Auto-play:*
+- Slides should auto-advance every 5 seconds
+- Hovering should stop auto-play
+- Click pause button to manually toggle
+
+*Last Slide:*
+- Should show "Story Complete!" message
+- Left click should be disabled
+- "Back to Home" button should work
+
+**Test 5: Mobile Story Viewer**
+1. Resize browser to mobile (375px)
+2. Open a story
+3. Verify layout is mobile-optimized
+4. Test "Previous" and "Next" buttons
+5. Test on landscape mode
+
+### Step 3: API Testing with Postman
+
+**Test 1: Get All Blogs**
+```
+GET http://localhost:5001/api/blogs
 ```
 
 Expected Response:
 ```json
-{
-  "message": "User registered successfully",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "507f1f77bcf86cd799439011",
-    "name": "John Doe",
-    "email": "john@example.com"
+[
+  {
+    "_id": "...",
+    "title": "7 Healthy Eating Habits...",
+    "category": "Healthy",
+    "author": "Dr. Sarah Johnson",
+    "blogSlides": [
+      {
+        "image": "https://...",
+        "text": "..."
+      },
+      ...
+    ]
   }
-}
+]
 ```
 
-**2. Test Login Endpoint:**
-```bash
-POST http://localhost:5001/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "password123"
-}
+**Test 2: Get Single Blog**
+```
+GET http://localhost:5001/api/blogs/{blog_id}
 ```
 
-Expected Response:
-```json
-{
-  "message": "Login successful",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "507f1f77bcf86cd799439011",
-    "name": "John Doe",
-    "email": "john@example.com"
-  }
-}
+Should return one blog with all details.
+
+**Test 3: Category Filter (will be tested in Feature 7)**
+```
+GET http://localhost:5001/api/blogs?category=Healthy
 ```
 
-### Frontend Testing
+Should return only healthy blogs.
 
-1. **Desktop View:**
-   - Open `http://localhost:3000/register`
-   - Fill in the form with valid data
-   - Click "Create Account"
-   - Verify success message appears
-   - Should redirect to home page
-   - Verify token is stored in localStorage
+## ✨ Key Features in Feature 3
 
-2. **Mobile View:**
-   - Resize browser to mobile width (375px)
-   - Verify form is fully responsive
-   - All inputs are readable
-   - Buttons are full width
-   - No horizontal scrolling
+| Feature | Status | Details |
+|---------|--------|---------|
+| Home Page | ✅ | Hero + blog grid |
+| Responsive Grid | ✅ | 1/2/3 columns |
+| Blog Cards | ✅ | Image, badge, hover effects |
+| Story Viewer | ✅ | Full-screen slides |
+| Tap Navigation | ✅ | Left/right click logic |
+| Progress Bar | ✅ | Visual slide progress |
+| Auto-play | ✅ | 5 second intervals |
+| Mobile Controls | ✅ | Previous/Next buttons |
+| Story Complete | ✅ | Last slide message |
 
-3. **Login Testing:**
-   - Open `http://localhost:3000/login`
-   - Try with invalid credentials (should show error)
-   - Try with valid credentials (should login)
-   - Check that navbar shows "Logout" after login
+---
 
-4. **Error Handling:**
-   - Try registering with existing email
-   - Try logging in with wrong password
-   - Test empty fields validation
-   - Test password mismatch validation
+
 
 ## 🧪 Testing FEATURE 1
 
@@ -234,12 +297,14 @@ Expected Response:
 
 ## 📝 Next Steps
 
-After verifying FEATURE 2 works correctly:
-1. Test backend API thoroughly with Postman (register & login)
-2. Test frontend registration form on mobile and desktop
-3. Test login functionality
-4. Verify token is stored and logout works
-5. Once confirmed working, reply with **"FEATURE 2 VERIFIED"** to proceed with FEATURE 3: Blog Listing & Blog Viewing with Story Mode
+After verifying FEATURE 3 works correctly:
+1. Test blog listing on home page
+2. Verify responsive grid layout (1/2/3 columns)
+3. Click "Read Story" on any blog card
+4. Test story viewer navigation (left/right click)
+5. Test on mobile and desktop
+6. Verify progress bar and slide counter work
+7. Once confirmed working, reply with **"FEATURE 3 VERIFIED"** to proceed with Feature 4: Like & Bookmark buttons in story mode
 
 ## 🎨 Design System
 
