@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -13,8 +15,8 @@ function App() {
             <Route path="/categories" element={<div className="max-w-7xl mx-auto px-4 py-8">Categories - Coming Soon</div>} />
             <Route path="/about" element={<div className="max-w-7xl mx-auto px-4 py-8">About - Coming Soon</div>} />
             <Route path="/contact" element={<div className="max-w-7xl mx-auto px-4 py-8">Contact - Coming Soon</div>} />
-            <Route path="/login" element={<div className="max-w-7xl mx-auto px-4 py-8">Login - Coming Soon</div>} />
-            <Route path="/register" element={<div className="max-w-7xl mx-auto px-4 py-8">Register - Coming Soon</div>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/bookmarks" element={<div className="max-w-7xl mx-auto px-4 py-8">Bookmarks - Coming Soon</div>} />
           </Routes>
         </main>

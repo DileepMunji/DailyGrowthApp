@@ -53,7 +53,7 @@ DailyGrowthApp/
    npm run dev
    ```
 
-   Server will run on `http://localhost:5000`
+   Server will run on `http://localhost:5001`
 
 ### Frontend Setup
 
@@ -98,6 +98,110 @@ DailyGrowthApp/
 - `Footer.jsx` - Responsive footer with quick links
 - `services/api.js` - Centralized API calls
 
+---
+
+## ✅ FEATURE 2: REGISTRATION & LOGIN - COMPLETED
+
+### Backend ✅
+- User model with password hashing (bcrypt)
+- POST /api/auth/register - Create new user
+- POST /api/auth/login - Authenticate user
+- JWT token generation on success
+
+### Frontend ✅
+- Register page with form validation
+- Login page with form validation
+- Error handling and success messages
+- Responsive design (mobile, tablet, desktop)
+- Token storage in localStorage
+- Auto-redirect on successful auth
+
+### Pages Created
+- `pages/Register.jsx` - Responsive registration form
+- `pages/Login.jsx` - Responsive login form
+
+## 🧪 Testing FEATURE 2
+
+### Backend API Testing (Using Postman or curl)
+
+**1. Test Register Endpoint:**
+```bash
+POST http://localhost:5001/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+Expected Response:
+```json
+{
+  "message": "User registered successfully",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "507f1f77bcf86cd799439011",
+    "name": "John Doe",
+    "email": "john@example.com"
+  }
+}
+```
+
+**2. Test Login Endpoint:**
+```bash
+POST http://localhost:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+Expected Response:
+```json
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "507f1f77bcf86cd799439011",
+    "name": "John Doe",
+    "email": "john@example.com"
+  }
+}
+```
+
+### Frontend Testing
+
+1. **Desktop View:**
+   - Open `http://localhost:3000/register`
+   - Fill in the form with valid data
+   - Click "Create Account"
+   - Verify success message appears
+   - Should redirect to home page
+   - Verify token is stored in localStorage
+
+2. **Mobile View:**
+   - Resize browser to mobile width (375px)
+   - Verify form is fully responsive
+   - All inputs are readable
+   - Buttons are full width
+   - No horizontal scrolling
+
+3. **Login Testing:**
+   - Open `http://localhost:3000/login`
+   - Try with invalid credentials (should show error)
+   - Try with valid credentials (should login)
+   - Check that navbar shows "Logout" after login
+
+4. **Error Handling:**
+   - Try registering with existing email
+   - Try logging in with wrong password
+   - Test empty fields validation
+   - Test password mismatch validation
+
 ## 🧪 Testing FEATURE 1
 
 ### Backend Testing
@@ -109,7 +213,7 @@ DailyGrowthApp/
    ```
 
 2. Test the API using Postman:
-   - GET `http://localhost:5000/api/test` - should return `{ message: 'API is working!' }`
+   - GET `http://localhost:5001/api/test` - should return `{ message: 'API is working!' }`
    - Check MongoDB connection logs
 
 ### Frontend Testing
@@ -130,10 +234,12 @@ DailyGrowthApp/
 
 ## 📝 Next Steps
 
-After verifying FEATURE 1 works correctly:
-1. Test backend API thoroughly with Postman
-2. Test frontend responsiveness on different screen sizes
-3. Once confirmed working, reply with **"FEATURE 1 VERIFIED"** to proceed with FEATURE 2: Registration
+After verifying FEATURE 2 works correctly:
+1. Test backend API thoroughly with Postman (register & login)
+2. Test frontend registration form on mobile and desktop
+3. Test login functionality
+4. Verify token is stored and logout works
+5. Once confirmed working, reply with **"FEATURE 2 VERIFIED"** to proceed with FEATURE 3: Blog Listing & Blog Viewing with Story Mode
 
 ## 🎨 Design System
 
