@@ -197,29 +197,31 @@ export default function StoryViewer() {
 
       {/* Main Story Area */}
       <div 
-        className="flex-grow relative cursor-pointer"
+        className="flex-grow relative cursor-pointer overflow-hidden"
         onClick={handleClickZone}
         onMouseEnter={() => setAutoPlay(false)}
         onMouseLeave={() => setAutoPlay(true)}
       >
-        {/* Background Image */}
+        {/* Background Image - Add key to force re-render on slide change */}
         <img
+          key={`slide-${currentSlide}-${slide?.image}`}
           src={slide?.image || 'https://via.placeholder.com/1000x800'}
-          alt="slide"
-          className="w-full h-full object-cover"
+          alt={`slide-${currentSlide}`}
+          className="w-full h-full object-cover transition-all duration-300"
+          loading="eager"
           onError={(e) => {
             e.target.src = 'https://via.placeholder.com/1000x800';
           }}
         />
 
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        {/* Dark Overlay - Make it subtle */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
 
-        {/* Slide Content */}
-        <div className="absolute inset-0 flex items-center justify-center px-4 py-8">
-          <div className="text-center max-w-2xl">
-            <p className="text-lg sm:text-2xl md:text-3xl font-bold leading-relaxed text-white whitespace-pre-wrap">
-              {slide?.text}
+        {/* Slide Content - Positioned at bottom with better styling */}
+        <div className="absolute bottom-0 left-0 right-0 px-4 py-16 sm:py-20 md:py-24">
+          <div className="max-w-3xl mx-auto">
+            <p className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold leading-relaxed text-white drop-shadow-xl text-center">
+              {slide?.text ? slide.text.split('\n').slice(0, 2).filter(t => t.trim()).join('\n') : ''}
             </p>
           </div>
         </div>
@@ -235,41 +237,44 @@ export default function StoryViewer() {
 
         {/* Up Next Overlay (Last Slide) */}
         {isLastSlide && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-black bg-opacity-70 backdrop-blur-sm rounded-lg p-8 text-center max-w-sm">
-              <p className="text-3xl mb-4">✨</p>
-              <h3 className="text-2xl font-bold mb-4">Story Complete!</h3>
-              <p className="text-gray-300 mb-6">Amazing job reading this story. Keep improving 1% every day!</p>
+          <div className="absolute inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50">
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 sm:p-8 text-center">
+              <p className="text-5xl mb-4">✨</p>
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Story Complete!</h3>
+              <p className="text-gray-600 mb-6 text-sm sm:text-base">Amazing job reading this story. Keep improving 1% every day!</p>
               
               {nextBlog && (
-                <>
-                  <p className="text-sm text-gray-400 mb-4">Up Next: {nextBlog.category}</p>
+                <div className="space-y-3">
+                  <div className="bg-gradient-to-r from-indigo-50 to-teal-50 p-3 rounded-lg mb-4">
+                    <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-1">Up Next</p>
+                    <p className="text-sm sm:text-base font-bold text-indigo-600">{nextBlog.category}</p>
+                  </div>
                   <button
                     onClick={handleUpNext}
-                    className="w-full bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition mb-3"
+                    className="w-full bg-gradient-to-r from-indigo-600 to-teal-400 text-white font-semibold py-3 rounded-lg hover:shadow-lg hover:scale-105 transition transform"
                   >
-                    Up Next → {nextBlog.title.substring(0, 30)}...
+                    📖 Continue Reading
                   </button>
                   <button
                     onClick={() => navigate('/')}
-                    className="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition"
+                    className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-lg transition"
                   >
-                    Back to Home
+                    🏠 Back to Home
                   </button>
-                </>
+                </div>
               )}
               
               {!nextBlog && (
                 <button
                   onClick={() => navigate('/')}
-                  className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition"
+                  className="w-full bg-gradient-to-r from-indigo-600 to-teal-400 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition"
                 >
-                  Back to Home
+                  🏠 Back to Home
                 </button>
               )}
             </div>
           </div>
-        )}
+        )} 
       </div>
 
       {/* Mobile Controls */}
