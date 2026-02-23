@@ -17,6 +17,14 @@ export default function Home() {
     { name: 'Jobs', label: 'Jobs', emoji: '💼' },
   ];
 
+  // Update navbar when home page loads (after login/register redirect)
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      window.dispatchEvent(new Event('authChange'));
+    }
+  }, []);
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
