@@ -29,7 +29,8 @@ export default function Home() {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
-        const response = await blogAPI.getAllBlogs(selectedCategory);
+        // Only pass category if it's not empty
+        const response = await blogAPI.getAllBlogs(selectedCategory || null);
         setBlogs(response.data);
         setError('');
       } catch (err) {

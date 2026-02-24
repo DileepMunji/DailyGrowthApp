@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -24,7 +24,13 @@ export const authAPI = {
 };
 
 export const blogAPI = {
-  getAllBlogs: (category) => api.get('/blogs', { params: { category } }),
+  getAllBlogs: (category) => {
+    const params = {};
+    if (category && category !== 'all') {
+      params.category = category;
+    }
+    return api.get('/blogs', { params });
+  },
   getBlogById: (id) => api.get(`/blogs/${id}`),
   likeBlog: (id) => api.post(`/blogs/like/${id}`),
   bookmarkBlog: (id) => api.post(`/blogs/bookmark/${id}`),
