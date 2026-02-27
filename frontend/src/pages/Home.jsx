@@ -35,6 +35,12 @@ export default function Home() {
     }
   }, []);
 
+  // Sync selected category with URL search params (handles footer category links)
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get('category') || '';
+    setSelectedCategory(categoryFromUrl);
+  }, [searchParams]);
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
