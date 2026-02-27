@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import { blogAPI } from '../services/api';
 
@@ -147,12 +147,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Start Your Journey Today</h2>
           <p className="text-gray-600 mb-8">Join thousands of users improving themselves 1% every day</p>
-          <a
-            href="/register"
+          <Link
+            to="/register"
             className="inline-block bg-gradient-to-r from-indigo-600 to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition"
           >
             Get Started Free
-          </a>
+          </Link>
         </div>
       </section>
     </div>
