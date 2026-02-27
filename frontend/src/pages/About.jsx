@@ -1,6 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function About() {
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    } else {
+      navigate('/register');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       {/* Hero Section with Animation */}
@@ -227,12 +238,12 @@ export default function About() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/register"
-              className="inline-block bg-gradient-to-r from-indigo-600 to-teal-400 text-white font-bold py-4 px-10 rounded-lg hover:shadow-2xl hover:scale-105 transition duration-300 shadow-lg"
+            <button
+              onClick={handleGetStarted}
+              className="inline-block bg-gradient-to-r from-indigo-600 to-teal-400 text-white font-bold py-4 px-10 rounded-lg hover:shadow-2xl hover:scale-105 transition duration-300 shadow-lg cursor-pointer"
             >
               Get Started Free →
-            </Link>
+            </button>
             <Link
               to="/"
               className="inline-block bg-white text-indigo-600 font-bold py-4 px-10 rounded-lg border-2 border-indigo-600 hover:bg-indigo-50 transition duration-300"

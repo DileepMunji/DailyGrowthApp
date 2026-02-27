@@ -1,13 +1,23 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { blogAPI } from '../services/api';
 import BlogCard from '../components/BlogCard';
 
 export default function Categories() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleGetStarted = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    } else {
+      navigate('/register');
+    }
+  };
   const [error, setError] = useState('');
 
   const categories = [
@@ -419,12 +429,12 @@ export default function Categories() {
             >
               Explore All Stories →
             </Link>
-            <Link
-              to="/register"
-              className="inline-block bg-white/20 text-white font-bold py-4 px-10 rounded-lg border-2 border-white hover:bg-white/30 transition duration-300 backdrop-blur"
+            <button
+              onClick={handleGetStarted}
+              className="inline-block bg-white/20 text-white font-bold py-4 px-10 rounded-lg border-2 border-white hover:bg-white/30 transition duration-300 backdrop-blur cursor-pointer"
             >
               Create Free Account
-            </Link>
+            </button>
           </div>
         </div>
       </div>

@@ -1,14 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import { blogAPI } from '../services/api';
 
 export default function Home() {
+  const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
+
+  const handleGetStarted = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    } else {
+      navigate('/register');
+    }
+  };
 
   const categories = [
     { name: '', label: 'All', emoji: '📚' },
@@ -147,12 +157,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">Start Your Journey Today</h2>
           <p className="text-gray-600 mb-8">Join thousands of users improving themselves 1% every day</p>
-          <Link
-            to="/register"
-            className="inline-block bg-gradient-to-r from-indigo-600 to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition"
+          <button
+            onClick={handleGetStarted}
+            className="inline-block bg-gradient-to-r from-indigo-600 to-indigo-700 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition cursor-pointer"
           >
             Get Started Free
-          </Link>
+          </button>
         </div>
       </section>
     </div>
