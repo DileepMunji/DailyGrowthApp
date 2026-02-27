@@ -135,13 +135,8 @@ export default function Categories() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {trendingGlobal.map((blog, idx) => (
-                <div key={blog._id} className="group relative">
-                  <div className="absolute -top-4 -left-4 bg-gradient-to-r from-indigo-600 to-teal-400 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shadow-lg">
-                    #{idx + 1}
-                  </div>
-                  <BlogCard blog={blog} />
-                </div>
+              {trendingGlobal.map((blog) => (
+                <BlogCard key={blog._id} blog={blog} />
               ))}
             </div>
           </div>
