@@ -41,12 +41,12 @@ export default function About() {
             </p>
 
             {/* CTA Button */}
-            <Link
-              to="/register"
-              className="inline-block bg-gradient-to-r from-indigo-600 to-teal-400 text-white font-bold py-3 px-8 rounded-lg hover:shadow-2xl hover:scale-105 transition duration-300 shadow-lg"
+            <button
+              onClick={handleGetStarted}
+              className="inline-block bg-gradient-to-r from-indigo-600 to-teal-400 text-white font-bold py-3 px-8 rounded-lg hover:shadow-2xl hover:scale-105 transition duration-300 shadow-lg cursor-pointer"
             >
               Start Your Journey →
-            </Link>
+            </button>
           </div>
         </div>
       </div>
