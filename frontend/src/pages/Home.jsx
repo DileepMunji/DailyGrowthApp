@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import { blogAPI } from '../services/api';
 
 export default function Home() {
   const navigate = useNavigate();
+  const blogSectionRef = useRef(null);
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -41,8 +42,19 @@ export default function Home() {
     console.log('🔍 URL Search Params:', Object.fromEntries(searchParams));
     console.log('📌 Category from URL:', categoryFromUrl);
     setSelectedCategory(categoryFromUrl);
-    // Scroll to top to ensure featured stories section is visible
-    window.scrollTo(0, 0);
+    
+    // If coming from footer (has category in URL), scroll to blog section
+    // Otherwise scroll to top (for page navigation)
+    if (categoryFromUrl) {
+      // Delay slightly to ensure DOM is updated
+      setTimeout(() => {
+        if (blogSectionRef.current) {
+          blogSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -101,7 +113,7 @@ export default function Home() {
       </section>
 
       {/* Blog Section */}
-      <section className="py-12 md:py-16 bg-gray-50">
+      <section ref={blogSectionRef} className="py-12 md:py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mb-10">
             <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-6">Featured Stories</h2>
