@@ -9,6 +9,7 @@ export default function Categories() {
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleGetStarted = () => {
     const token = localStorage.getItem('token');
@@ -19,6 +20,12 @@ export default function Categories() {
     }
   };
   const [error, setError] = useState('');
+
+  // Check if user is authenticated
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, []);
 
   const categories = [
     { id: 'Healthy', name: 'Health & Wellness', emoji: '🌱', color: 'from-green-400 to-emerald-600', desc: 'Tips for physical and mental well-being' },
@@ -424,12 +431,14 @@ export default function Categories() {
             >
               Explore All Stories →
             </Link>
-            <button
-              onClick={handleGetStarted}
-              className="inline-block bg-white/20 text-white font-bold py-4 px-10 rounded-lg border-2 border-white hover:bg-white/30 transition duration-300 backdrop-blur cursor-pointer"
-            >
-              Create Free Account
-            </button>
+            {!isAuthenticated && (
+              <button
+                onClick={handleGetStarted}
+                className="inline-block bg-white/20 text-white font-bold py-4 px-10 rounded-lg border-2 border-white hover:bg-white/30 transition duration-300 backdrop-blur cursor-pointer"
+              >
+                Create Free Account
+              </button>
+            )}
           </div>
         </div>
       </div>
