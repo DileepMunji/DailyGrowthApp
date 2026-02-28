@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="bg-gray-900 text-white mt-12">
       <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
@@ -22,9 +26,9 @@ export default function Footer() {
           <div>
             <h3 className="font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><Link to="/" className="hover:text-white transition">Home</Link></li>
-              <li><Link to="/about" className="hover:text-white transition">About</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition">Contact</Link></li>
+              <li><Link to="/" onClick={handleScrollToTop} className="hover:text-white transition">Home</Link></li>
+              <li><Link to="/about" onClick={handleScrollToTop} className="hover:text-white transition">About</Link></li>
+              <li><Link to="/contact" onClick={handleScrollToTop} className="hover:text-white transition">Contact</Link></li>
             </ul>
           </div>
 
@@ -32,16 +36,16 @@ export default function Footer() {
           <div>
             <h3 className="font-bold mb-4">Categories</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><Link to="/?category=Healthy" className="hover:text-white transition">🌱 Healthy</Link></li>
-              <li><Link to="/?category=Education" className="hover:text-white transition">📖 Education</Link></li>
-              <li><Link to="/?category=Jobs" className="hover:text-white transition">💼 Jobs</Link></li>
+              <li><Link to="/?category=Healthy" onClick={handleScrollToTop} className="hover:text-white transition">🌱 Healthy</Link></li>
+              <li><Link to="/?category=Education" onClick={handleScrollToTop} className="hover:text-white transition">📖 Education</Link></li>
+              <li><Link to="/?category=Jobs" onClick={handleScrollToTop} className="hover:text-white transition">💼 Jobs</Link></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
             <h3 className="font-bold mb-4">Get in Touch</h3>
-            <Link to="/contact" className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition inline-block">
+            <Link to="/contact" onClick={handleScrollToTop} className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition inline-block">
               Contact Us
             </Link>
           </div>
