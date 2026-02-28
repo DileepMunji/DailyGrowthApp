@@ -38,20 +38,26 @@ export default function Home() {
   // Sync selected category with URL search params (handles footer category links)
   useEffect(() => {
     const categoryFromUrl = searchParams.get('category') || '';
+    console.log('🔍 URL Search Params:', Object.fromEntries(searchParams));
+    console.log('📌 Category from URL:', categoryFromUrl);
     setSelectedCategory(categoryFromUrl);
+    // Scroll to top to ensure featured stories section is visible
+    window.scrollTo(0, 0);
   }, [searchParams]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
+        console.log('🔄 Fetching blogs for category:', selectedCategory || 'All');
         // Only pass category if it's not empty
         const response = await blogAPI.getAllBlogs(selectedCategory || null);
+        console.log('✅ Blogs fetched:', response.data.length, 'blogs for category:', selectedCategory);
         setBlogs(response.data);
         setError('');
       } catch (err) {
+        console.error('❌ Error fetching blogs:', err);
         setError('Failed to load blogs');
-        console.error(err);
       } finally {
         setLoading(false);
       }
