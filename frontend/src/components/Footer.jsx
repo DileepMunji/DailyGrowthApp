@@ -27,6 +27,7 @@ export default function Footer() {
             <h3 className="font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-gray-400">
               <li><Link to="/" onClick={handleScrollToTop} className="hover:text-white transition">Home</Link></li>
+              <li><Link to="/categories" onClick={handleScrollToTop} className="hover:text-white transition">Categories</Link></li>
               <li><Link to="/about" onClick={handleScrollToTop} className="hover:text-white transition">About</Link></li>
               <li><Link to="/contact" onClick={handleScrollToTop} className="hover:text-white transition">Contact</Link></li>
             </ul>
