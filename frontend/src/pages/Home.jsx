@@ -39,21 +39,23 @@ export default function Home() {
   // Sync selected category with URL search params (handles footer category links)
   useEffect(() => {
     const categoryFromUrl = searchParams.get('category') || '';
-    console.log('🔍 URL Search Params:', Object.fromEntries(searchParams));
-    console.log('📌 Category from URL:', categoryFromUrl);
     setSelectedCategory(categoryFromUrl);
     
     // If coming from footer (has category in URL), scroll to blog section
-    // Otherwise scroll to top (for page navigation)
     if (categoryFromUrl) {
-      // Delay slightly to ensure DOM is updated
-      setTimeout(() => {
+      // Use requestAnimationFrame for more reliable scrolling
+      const scrollTimer = setTimeout(() => {
         if (blogSectionRef.current) {
-          blogSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const element = blogSectionRef.current;
+          const topPosition = element.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: topPosition - 80, // Subtract navbar height for better positioning
+            behavior: 'smooth'
+          });
+          console.log('✅ Scrolled to Featured Stories section');
         }
-      }, 100);
-    } else {
-      window.scrollTo(0, 0);
+      }, 200);
+      return () => clearTimeout(scrollTimer);
     }
   }, [searchParams]);
 
