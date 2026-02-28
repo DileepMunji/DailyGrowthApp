@@ -61,6 +61,10 @@ export default function Categories() {
     }
   };
 
+  const handleExploreCategory = (categoryId) => {
+    navigate(`/?category=${categoryId}`);
+  };
+
   // Helper functions
   const getCategoryCount = (catId) => blogs.filter(b => b.category === catId).length;
   const getTrendingStories = (catId, limit = 3) => {
@@ -171,10 +175,8 @@ export default function Categories() {
               return (
                 <button
                   key={category.id}
-                  onClick={() => handleCategoryChange(category.id)}
-                  className={`group text-left rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden cursor-pointer transform ${
-                    selectedCategory === category.id ? 'ring-4 ring-indigo-600 scale-105' : 'hover:scale-105'
-                  }`}
+                  onClick={() => handleExploreCategory(category.id)}
+                  className={`group text-left rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden cursor-pointer transform hover:scale-105`}
                 >
                   <div className={`bg-gradient-to-br ${category.color} h-32 flex items-center justify-center relative overflow-hidden`}>
                     <span className="text-6xl group-hover:scale-110 transition duration-300">{category.emoji}</span>
@@ -300,7 +302,7 @@ export default function Categories() {
                 </div>
               </div>
               <button
-                onClick={() => handleCategoryChange('Healthy')}
+                onClick={() => handleExploreCategory('Healthy')}
                 className="w-full mt-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 rounded-lg hover:shadow-lg transition"
               >
                 Start Wellness Path
@@ -338,7 +340,7 @@ export default function Categories() {
                 </div>
               </div>
               <button
-                onClick={() => handleCategoryChange('Jobs')}
+                onClick={() => handleExploreCategory('Jobs')}
                 className="w-full mt-6 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold py-3 rounded-lg hover:shadow-lg transition"
               >
                 Start Career Path
