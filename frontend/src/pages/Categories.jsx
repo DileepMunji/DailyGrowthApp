@@ -62,6 +62,11 @@ export default function Categories() {
     }
   };
 
+  const handleExploreAllStories = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate('/?scroll=featured');
+  };
+
   const handleExploreCategory = (categoryId) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate(`/?category=${categoryId}`);
@@ -429,12 +434,12 @@ export default function Categories() {
             Choose a learning path and start your journey to personal growth and success.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/"
-              className="inline-block bg-white text-indigo-600 font-bold py-4 px-10 rounded-lg hover:shadow-2xl hover:scale-105 transition duration-300 shadow-lg"
+            <button
+              onClick={handleExploreAllStories}
+              className="inline-block bg-white text-indigo-600 font-bold py-4 px-10 rounded-lg hover:shadow-2xl hover:scale-105 transition duration-300 shadow-lg cursor-pointer"
             >
               Explore All Stories →
-            </Link>
+            </button>
             {!isAuthenticated && (
               <button
                 onClick={handleGetStarted}

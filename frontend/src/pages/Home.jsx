@@ -40,10 +40,11 @@ export default function Home() {
   // Sync selected category with URL search params (handles footer category links)
   useEffect(() => {
     const categoryFromUrl = searchParams.get('category') || '';
+    const scrollToFeatured = searchParams.get('scroll') === 'featured';
     setSelectedCategory(categoryFromUrl);
     
-    // If coming from footer (has category in URL), scroll to blog section
-    if (categoryFromUrl) {
+    // If coming from "Explore All Stories" or has category in URL, scroll to blog section
+    if (categoryFromUrl || scrollToFeatured) {
       // Use requestAnimationFrame for more reliable scrolling
       const scrollTimer = setTimeout(() => {
         if (blogSectionRef.current) {
