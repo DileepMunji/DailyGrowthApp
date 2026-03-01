@@ -4,6 +4,7 @@ export default function About() {
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     const token = localStorage.getItem('token');
     if (token) {
       navigate('/');

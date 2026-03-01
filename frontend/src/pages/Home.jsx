@@ -13,6 +13,7 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
 
   const handleGetStarted = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     const token = localStorage.getItem('token');
     if (token) {
       navigate('/');

@@ -12,6 +12,7 @@ export default function Categories() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleGetStarted = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     const token = localStorage.getItem('token');
     if (token) {
       navigate('/');
@@ -62,6 +63,7 @@ export default function Categories() {
   };
 
   const handleExploreCategory = (categoryId) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate(`/?category=${categoryId}`);
   };
 
