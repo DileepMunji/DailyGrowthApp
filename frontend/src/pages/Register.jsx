@@ -67,6 +67,7 @@ export default function Register() {
       localStorage.setItem('user', JSON.stringify(response.data.user));
 
       setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         navigate('/');
       }, 1500);
     } catch (err) {

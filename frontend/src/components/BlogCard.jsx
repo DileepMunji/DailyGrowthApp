@@ -21,6 +21,7 @@ export default function BlogCard({ blog }) {
   };
 
   const handleReadMore = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate(`/story/${blog._id}`);
   };
 

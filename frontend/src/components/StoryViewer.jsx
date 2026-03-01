@@ -82,7 +82,10 @@ export default function StoryViewer() {
         <div className="text-white text-center">
           <p>{error || 'Blog not found'}</p>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              navigate('/');
+            }}
             className="mt-4 bg-indigo-600 px-6 py-2 rounded-lg hover:bg-indigo-700 transition"
           >
             Back to Home
@@ -126,6 +129,7 @@ export default function StoryViewer() {
 
   const handleUpNext = () => {
     if (nextBlog) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       navigate(`/story/${nextBlog._id}`);
     }
   };
@@ -161,7 +165,10 @@ export default function StoryViewer() {
         <div className="text-center">
           <p className="text-lg font-semibold text-red-400 mb-4">{error || 'Blog not found'}</p>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              navigate('/');
+            }}
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition"
           >
             Back to Home
@@ -176,7 +183,10 @@ export default function StoryViewer() {
       {/* Close Button & Info Bar */}
       <div className="bg-black bg-opacity-50 px-4 py-3 flex items-center justify-between z-40">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            navigate('/');
+          }}
           className="text-2xl hover:scale-110 transition"
         >
           ✕
@@ -266,7 +276,10 @@ export default function StoryViewer() {
                     📖 Continue Reading
                   </button>
                   <button
-                    onClick={() => navigate('/')}
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                      navigate('/');
+                    }}
                     className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 rounded-lg transition"
                   >
                     🏠 Back to Home
