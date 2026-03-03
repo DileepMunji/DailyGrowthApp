@@ -13,6 +13,11 @@ export default function About() {
     }
   };
 
+  const handleExploreStories = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate('/?scroll=featured');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       {/* Hero Section with Animation */}
@@ -245,12 +250,12 @@ export default function About() {
             >
               Get Started Free →
             </button>
-            <Link
-              to="/"
-              className="inline-block bg-white text-indigo-600 font-bold py-4 px-10 rounded-lg border-2 border-indigo-600 hover:bg-indigo-50 transition duration-300"
+            <button
+              onClick={handleExploreStories}
+              className="inline-block bg-white text-indigo-600 font-bold py-4 px-10 rounded-lg border-2 border-indigo-600 hover:bg-indigo-50 transition duration-300 cursor-pointer"
             >
               Explore Stories
-            </Link>
+            </button>
           </div>
         </div>
       </div>
