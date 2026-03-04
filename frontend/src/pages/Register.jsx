@@ -62,9 +62,7 @@ export default function Register() {
         password: formData.password,
       });
 
-      setSuccess('✅ Registration successful! Redirecting to home...');
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      setSuccess('✅ Registration successful! Please log in to continue.');
 
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
